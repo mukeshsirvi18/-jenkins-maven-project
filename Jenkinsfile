@@ -4,15 +4,19 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                // Clean and package the Maven project
-                sh 'mvn clean package'
+                // Run Maven from the correct directory where pom.xml is located
+                dir('hello-app') {
+                    sh 'mvn clean package'
+                }
             }
         }
 
         stage('Test') {
             steps {
-                // Run tests using Maven
-                sh 'mvn test'
+                // Run tests
+                dir('hello-app') {
+                    sh 'mvn test'
+                }
             }
         }
     }
