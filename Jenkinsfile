@@ -1,25 +1,18 @@
 pipeline {
     agent any
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn -f hello-app/pom.xml -B -DskipTests clean package'
-            }
-            post {
-                success {
-                    echo "Now Archiving the Artifacts....."
-                    archiveArtifacts artifacts: '**/*.jar'
-                }
+                // Clean and package the Maven project
+                sh 'mvn clean package'
             }
         }
+
         stage('Test') {
             steps {
-                sh 'mvn -f hello-app/pom.xml test'
-            }
-            post {
-                always {
-                    junit 'hello-app/target/surefire-reports/*.xml'
-                }
+                // Run tests using Maven
+                sh 'mvn test'
             }
         }
     }
